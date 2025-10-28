@@ -1,0 +1,32 @@
+services:
+
+db:
+  image:
+  container_name:
+  enviroment:
+  volumes:
+  ports:
+  healthcheck:
+    test:
+    interval:
+    timeout:
+    retries:
+
+api:
+  build:
+  container_name:
+  depends_on:
+    db:
+      condition:
+    enviroment:
+    ports:
+
+dashboard:
+  build:
+  container_name:
+  depends_on:
+  enviroment:
+  ports:
+
+volumes:
+  postgres_data:
