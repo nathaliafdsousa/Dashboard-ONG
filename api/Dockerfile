@@ -4,11 +4,12 @@ FROM python:3.11-slim
 # Define o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copia todos os arquivos locais para dentro do container
-COPY . .
-
-# Instala as dependências
+# Copia e instala as dependências da aplicação no container
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+
+COPY . .
 
 # Expõe a porta que o Streamlit usa
 EXPOSE 8501
