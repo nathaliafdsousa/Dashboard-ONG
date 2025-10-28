@@ -12,7 +12,8 @@ dados = []
 for mes in meses:
     dinheiro = random.randint(5000, 15000)
     alimento = random.randint(3000, 12000)
-    dados.append({"Mês": mes, "Dinheiro": dinheiro, "Alimentos": alimento})
+    produtoLimpeza = random.randint(4000, 13500)
+    dados.append({"Mês": mes, "Dinheiro": dinheiro, "Alimentos": alimento, "Produtos de Limpeza": produtoLimpeza})
 
 df = pd.DataFrame(dados)
 
@@ -21,7 +22,7 @@ st.subheader("Distribuição de Doações por Mês")
 
 
 for i, row in df.iterrows():
-    valores = {"Dinheiro": row["Dinheiro"], "Alimentos": row["Alimentos"]}
+    valores = {"Dinheiro": row["Dinheiro"], "Alimentos": row["Alimentos"], "Produtos de Limpeza": row["Produtos de Limpeza"]}
     grafico = px.pie(
         names=valores.keys(),
         values=valores.values(),
@@ -34,5 +35,5 @@ for i, row in df.iterrows():
 st.markdown("---")
 st.subheader("Resumo Geral")
 st.write(df)
-st.success(f"Total arrecadado: R$ {df['Dinheiro'].sum() + df['Alimentos'].sum():,.2f}")
+st.success(f"Total arrecadado: R$ {df['Dinheiro'].sum() + df['Alimentos'].sum() + df['Produtos de Limpeza'].sum():,.2f}")
 
