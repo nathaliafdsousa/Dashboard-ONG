@@ -1,32 +1,50 @@
+version: "3.9"
+
 services:
-
-db:
-  image:
-  container_name:
-  enviroment:
-  volumes:
-  ports:
-  healthcheck:
-    test:
-    interval:
-    timeout:
-    retries:
-
-api:
-  build:
-  container_name:
-  depends_on:
-    db:
-      condition:
-    enviroment:
+  db:
+    image: postgres:13
+    container_name: db_ong
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: ongdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d ongdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-dashboard:
-  build:
-  container_name:
-  depends_on:
-  enviroment:
-  ports:
+  api:
+    build: ./api
+    container_name: api_ong
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://admin:admin@db:5432/ongdb
+    ports:
+      - "5000:5000"
+    networks:
+      - ong-net
+
+  dashboard:
+    build: ./dashboard
+    container_name: dashboard_ong
+    depends_on:
+      - api
+    ports:
+      - "8501:8501"
+    networks:
+      - ong-net
 
 volumes:
   postgres_data:
+
+networks:
+  ong-net:
+    driver: bridge
