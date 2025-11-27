@@ -18,9 +18,12 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - ong-net
 
   api:
     build: ./api
+    image: gabriellepadua/agnp-api:latest
     container_name: api_ong
     depends_on:
       db:
@@ -34,6 +37,7 @@ services:
 
   dashboard:
     build: ./dashboard
+    image: gabriellepadua/agnp-dashboard:latest
     container_name: dashboard_ong
     depends_on:
       - api
