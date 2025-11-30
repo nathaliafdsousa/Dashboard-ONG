@@ -37,7 +37,9 @@ for _, row in df.iterrows():
 # --- RESUMO GERAL ---
 st.markdown("---")
 st.subheader("Resumo Geral")
-st.write(df)
+
+ordem_colunas = ["Mês", "Dinheiro", "Alimentos", "Produtos de Limpeza"]
+st.dataframe(df[ordem_colunas], hide_index=True)
 
 total = df["Dinheiro"].sum() + df["Alimentos"].sum() + df["Produtos de Limpeza"].sum()
 st.success(f"💰 Total arrecadado: R$ {total:,.2f}")

@@ -18,9 +18,12 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - ong-net
 
   api:
     build: ./api
+    image: gabriellepadua/agnp-api:v2
     container_name: api_ong
     depends_on:
       db:
@@ -34,9 +37,12 @@ services:
 
   dashboard:
     build: ./dashboard
+    image: gabriellepadua/agnp-dashboard:v2
     container_name: dashboard_ong
     depends_on:
       - api
+    environment:
+      - API_URL=http://api:5000/doacoes
     ports:
       - "8501:8501"
     networks:
